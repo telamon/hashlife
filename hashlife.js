@@ -18,8 +18,10 @@ document.body.innerHTML = `
     They're very hard for humans to read.<br/><br/> There are
     many algorithms that attempt to represent them as something
     meaningful but none have stuck so far.<br/>
+    Some providers choose to abstract your key away using
+    central registries, but that's kinda boring.<br/>
     So here's one more algo to throw onto the pile! :)<br/>
-    - <a href="https://github.com/telamon">@telamon</a>
+    - <a href="https://github.com/telamon/hashlife">@telamon</a>
   </details>
 `
 
@@ -91,9 +93,12 @@ function draw (board, p = null, mix = 1) {
         ? board[x][y]
         : p[x][y] * (1.0 - mix) + board[x][y] * mix
       // fail-mix: this just looks like lcd-ghosting to me :/
-      const c = Math.round(v * 255)
+      const c = Math.round((1 - v) * 255)
       ctx.fillStyle = `rgb(${c}, ${c}, ${c})`
-      ctx.fillRect(y * cellSize, x * cellSize, cellSize, cellSize)
+      //ctx.fillRect(y * cellSize, x * cellSize, cellSize, cellSize)
+      ctx.beginPath(); // Start a new path
+      ctx.arc(y * cellSize + cellSize / 2, x * cellSize + cellSize / 2, cellSize / 2, 0, Math.PI * 2); // Draw a circle
+      ctx.fill(); // Fill the circle
     }
   }
 }
@@ -111,11 +116,14 @@ document.getElementById('keygen').addEventListener('click', async () => {
 document.getElementById('key').addEventListener('change', () => {
   board = toBoard(toU8(document.getElementById('key').value))                                                               
 })
+document.getElementById('canvas').addEventListener('click', () => {
+  board = toBoard(toU8(document.getElementById('key').value)) 
+})
 
 let ptime = 0
 let prog = 0
 function loop (time) {
-  prog += (time - ptime) / 66
+  prog += (time - ptime) / 50
   ptime = time
   if (prog > 1) {
     previous = board
