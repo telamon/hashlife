@@ -19,7 +19,7 @@ document.body.innerHTML = `
     many algorithms that attempt to represent them as something
     meaningful but none have stuck so far.<br/>
     Some providers choose to abstract your key away using
-    central registries, but that's kinda boring.<br/>
+    central registries, but that's the opposite of fun.<br/>
     So here's one more algo to throw onto the pile! :)<br/>
     - <a href="https://github.com/telamon/hashlife">@telamon</a>
   </details>
